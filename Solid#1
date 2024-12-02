@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+
+class TextProcessor {
+private:
+    std::string text;
+
+public:
+    void addLine(const std::string& line) {
+        if (!text.empty()) {
+            text += "\n";
+        }
+        text += line;
+    }
+    void clear() {
+        text.clear();
+    }    
+    std::string getText() const {
+        return text;
+    }
+};
+
+
+class ConsoleUI {
+public:
+    
+    void print(const std::string& message) const {
+        std::cout << message << std::endl;
+    }
+
+    
+    std::string input(const std::string& prompt) const {
+        std::cout << prompt;
+        std::string userInput;
+        std::getline(std::cin, userInput);
+        return userInput;
+    }
+};
+
+int main() {
+    TextProcessor textProcessor;
+    ConsoleUI console;
+
+    while (true) {
+        console.print("1. Add a line");
+        console.print("2. Clear text");
+        console.print("3. Show text");
+        console.print("4. Exit");
+        int choice = std::stoi(console.input("Enter your choice: "));
+
+        switch (choice) {
+        case 1: {
+            std::string line = console.input("Enter a line: ");
+            textProcessor.addLine(line);
+            break;
+        }
+        case 2:
+            textProcessor.clear();
+            console.print("Text cleared.");
+            break;
+        case 3:
+            console.print("Current text:");
+            console.print(textProcessor.getText());
+            break;
+        case 4:
+            console.print("Goodbye!");
+            return 0;
+        default:
+            console.print("Invalid choice. Please try again.");
+        }
+    }
+
+    return 0;
+}
