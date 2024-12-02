@@ -1,0 +1,36 @@
+#include <iostream>
+class Printer {
+public:
+    virtual void printDocument(const std::string& document) const = 0;
+    virtual ~Printer() = default;
+};
+class Scanner {
+public:
+    virtual void scanDocument() const = 0;
+    virtual ~Scanner() = default;
+};
+class MultiFunctionDevice : public Printer, public Scanner {
+public:
+    void printDocument(const std::string& document) const override {
+        std::cout << "Printing: " << document << std::endl;
+    }
+
+    void scanDocument() const override {
+        std::cout << "Scanning document..." << std::endl;
+    }
+};
+class SimplePrinter : public Printer {
+public:
+    void printDocument(const std::string& document) const override {
+        std::cout << "Printing: " << document << std::endl;
+    }
+};
+int main() {
+    MultiFunctionDevice mfd;
+    mfd.printDocument("Report.pdf");
+    mfd.scanDocument();
+    SimplePrinter printer;
+    printer.printDocument("Invoice.docx");
+
+    return 0;
+}
