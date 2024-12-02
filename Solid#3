@@ -1,0 +1,42 @@
+#include <iostream>
+
+class Bird {
+public:
+    virtual void makeSound() const = 0;
+    virtual ~Bird() = default;
+};
+class FlyingBird : public Bird {
+public:
+    virtual void fly() const = 0; 
+};
+
+
+class Eagle : public FlyingBird {
+public:
+    void makeSound() const override {
+        std::cout << "Eagle: Screech!" << std::endl;
+    }
+
+    void fly() const override {
+        std::cout << "Eagle is soaring high!" << std::endl;
+    }
+};
+
+class Penguin : public Bird {
+public:
+    void makeSound() const override {
+        std::cout << "Penguin: Honk!" << std::endl;
+    }
+};
+
+int main() {
+    Bird* eagle = new Eagle();
+    Bird* penguin = new Penguin();
+    eagle->makeSound();
+    penguin->makeSound();
+    FlyingBird* flyingEagle = static_cast<FlyingBird*>(eagle); 
+    flyingEagle->fly();
+     
+
+    return 0;
+}
