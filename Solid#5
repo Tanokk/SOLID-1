@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+class MessageService {
+public:
+    virtual void sendMessage(const std::string& message) const = 0; 
+    virtual ~MessageService() = default;
+};
+class EmailService : public MessageService {
+public:
+    void sendMessage(const std::string& message) const override {
+        std::cout << "Sending email with message: " << message << std::endl;
+    }
+};
+class SMSService : public MessageService {
+public:
+    void sendMessage(const std::string& message) const override {
+        std::cout << "Sending SMS with message: " << message << std::endl;
+    }
+};
+class Notification {
+private:
+    MessageService* messageService; 
+
+public:
+    Notification(MessageService* service) : messageService(service) {}
+
+    void notify(const std::string& message) const {
+        messageService->sendMessage(message);
+    }
+};
+int main() {
+    EmailService emailService;
+    SMSService smsService;
+    Notification emailNotification(&emailService);
+    emailNotification.notify("Hello via Email!");
+    Notification smsNotification(&smsService);
+    smsNotification.notify("Hello via SMS!");
+
+    return 0;
+}
