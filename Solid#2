@@ -1,0 +1,38 @@
+#include <iostream>
+#include <memory>
+
+class Shape {
+public:
+    virtual double area() const = 0; 
+    virtual ~Shape() = default;
+};
+class Rectangle : public Shape {
+private:
+    double width, height;
+
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+
+    double area() const override {
+        return width * height;
+    }
+};
+class Circle : public Shape {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    double area() const override {
+        return 3.14159 * radius * radius; 
+    }
+};
+
+int main() {
+    std::unique_ptr<Shape> rectangle = std::make_unique<Rectangle>(10.0, 5.0);
+    std::unique_ptr<Shape> circle = std::make_unique<Circle>(7.0);
+    std::cout << "Rectangle area: " << rectangle->area() << std::endl;
+    std::cout << "Circle area: " << circle->area() << std::endl;
+    return 0;
+}
